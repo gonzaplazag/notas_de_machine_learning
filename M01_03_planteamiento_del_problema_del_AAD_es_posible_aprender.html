@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>M01_02_planteamiento_del_problema_del_AAD_es_posible_aprender</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>M01_03_planteamiento_del_problema_del_AAD_es_posible_aprender</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14259,38 +14259,13 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="La-posibilidad-de-aprender-a-partir-de-datos">La posibilidad de aprender a partir de datos<a class="anchor-link" href="#La-posibilidad-de-aprender-a-partir-de-datos">&#182;</a></h1><p>El objetivo del aprendizaje es conocer una función objetivo $f$, que asocia valores de input con valores de output determinados. Esta función $f$ es desconocida y no es posible de conocer directamente.</p>
-<p>El acercamiento a esta función se realiza mediante el conocimiento de un conjunto de datos parcial, el dataset de entrenamiento. ¿Puede un dataset parcial darnos a conocer suficientes cosas como para poder realizar dicho acercamiento?.</p>
-<h2 id="Acercamiento-probabil&#237;stico-al-problema">Acercamiento probabil&#237;stico al problema<a class="anchor-link" href="#Acercamiento-probabil&#237;stico-al-problema">&#182;</a></h2><p>La posibilidad de aprender de una población a partir de un conjunto de datos parcial es un problema tratado por la estadística. Esta nos ayuda a establecer ciertas condiciones bajos las cuales dicho proceso de aprendizaje es posible.</p>
-<p>El modelo probabilístico básico que permite justificar la posibilidad del aprendizaje se menciona a continuación.</p>
-<p>Tenemos un espacio de entrada $X$ del cual se quiere aprender y para eso se cuenta con un dataset de entrenamiento $D$. Sabemos que, para cada valor de entrada, existe un valor de $y = f(x)$ de respuesta, desconocido para nosotros, pero existente.</p>
-<p>A partir de un proceso de aprendizaje se genera una función $g$ que aproxima (mejor o peor) a $f$. Esta función $g$ al ser evaluada en un conjunto parcial de datos de $X$, llamado $D_t$ (que pueden ser el mismo dataset $D$ u otros datos utilizados específicamente para este rol de evaluación posterior), genera respuestas $g(x), que pueden ser correctas o incorrectas respecto a los valores reales f(x).</p>
-<p>La proporción de valores bien predichos en $D_t$ se puede establecer directamente, no así la situación en todo el dataset $X$. Sin embargo, se puede demostrar que en el caso de ser $D_t$ una muestra aleatoria con reposición de $X$, entonces se cumple la siguiente desigualdad: $$P(|v-\mu| &gt; \epsilon) \leq 2e^{-2\epsilon^2N}$$ conocida como <strong>desigualdad de Hoeffding</strong>, con $\mu$ la verdadera proporción de bien predichos en $X$ y $v$ la proporción de bien predichos en el dataset $D_t$. La desigualdad nos asegura entonces que en estas circunstancias:</p>
-<ol>
-<li><p>Es posible acotar la probabilidad de que el error de predicción entre $v$ y $\mu$ sea más grande que un valor específico (cualquiera sea este valor específico), sólo aumentando el tamaño de la muestra.</p>
-</li>
-<li><p>Este ejercicio de tomar datos parciales y evualuar sobre estos la capacidad predictiva de mi función $g$ es un ejercicio válido.</p>
-</li>
-<li><p>Las conclusiones anteriores se sostienen cuando el conjunto de testeo $D_t$ es una muestra aleatoria del conjunto $X$. En otros casos, no es posible sostenar dichas afirmaciones.</p>
-</li>
-</ol>
-<p>Se denomina <strong>error en la muestra</strong> al valor $v$, o sea a la proporción de mal clasificados en la muestra de datos conocida. Se denomina <strong>error fuera de la muestra</strong> a la proporción $\mu$ de mal clasificados por mi función $h$ en los datos totales $X$. La afirmación anterior con esta nueva situación se resume diciendo que es posible acotar la diferencia tanto como se quiera entre el error en la muestra y el fuera de la muestra, modificando el tamaño de esta. Con esta notación, la desigualdad queda como $$P(|E_in(h)-E_out(h)| &gt; \epsilon) \leq 2e^{-2\epsilon^2N}$$</p>
-<p>Este enfoque entonces asegura que, dada la hipótesis seleccionada $h$ y su asociada función de aproximación $g$, es posible establecer una medida probabilistamente confiable de lo bien que actua dicha hipótesis para clasificar casos en general.</p>
-<h3 id="Incorporaci&#243;n-del-problema-del-set-de-hip&#243;tesis-al-argumento">Incorporaci&#243;n del problema del set de hip&#243;tesis al argumento<a class="anchor-link" href="#Incorporaci&#243;n-del-problema-del-set-de-hip&#243;tesis-al-argumento">&#182;</a></h3><p>El argumento anterior depende de la elección de $h$, como explicita la segunda notación. La elección de $h$ establece los valores predichos (conocidos en la muestra como desconocidos en la población), y por lo tanto ambos errores de predicción $E_in(h)$ y $E_out(h)$.</p>
-<p>En la realidad no se prueba una sola hipótesis, sino que se prueba un conjunto de hipótesis del set de hipótesis $H$. Es muy importante saber que la medida muestral del error es una aproximación válida a la medida poblacional, pero lo útil es elegir la hipótesis que de la menor medida posible.</p>
-<p>Suponiendo que en vez de tomar una hipótesis individual y querer establecer una métrica de la probabilidad de error, lo que hacemos es tomar muchas hipótesis $h$, quedarnos con la menor $g$, y queremos establecer la medida de la probabilida de error, tenemos que la desigualdad de Hoeffding toma la forma $$P(|E_in(g)-E_out(g)| &gt; \epsilon) \leq 2Me^{-2\epsilon^2N}$$</p>
-<p>donde $g$ es la hipótesis "optima", y M es la cantidad de hipótesis estudiadas (que por simplicidad aquí se supone finita).</p>
-<p>En esta nueva situación, es posible también establecer la cota, aunque es una cota no tan ajustada. Esto mantiene los resultados anteriormente vistos para este caso, pero hace necesario cantidades mayores de información para poder asegurar buenos resultados. Además, sólo aplica para casos de una cantidad finita de hipotesis, cosa que no es razonable.</p>
-<h2 id="Introducci&#243;n-al-problema-sesgo-varianza">Introducci&#243;n al problema sesgo-varianza<a class="anchor-link" href="#Introducci&#243;n-al-problema-sesgo-varianza">&#182;</a></h2><p>De la explicación anterior surge que la posibilidad del aprendizaje es un problema que cuenta con al menos dos interrogantes:</p>
-<ol>
-<li><p>Dado que queremos aproximar $f$, es posible establecer una métrica que nos dé cuenta de lo bien que estamos aproximando. Este problema se ataca mediante la desigualdad de Hoeffding.</p>
-</li>
-<li><p>Podríamos tener una métrica de si estamos aproximando bien o mal, pero al final del día lo relevante es encontrar métodos para aproximar bien. Como es esto posible?</p>
-</li>
-</ol>
-<p>Pareciera que sin una buena guía de lo bien que se está aproximando, simplemente no es posible establecer hipótesis mejores o peores. Ahora bien, la métrica en si misma no es el objetivo, que es encontrar una buena aproximación.</p>
-<p>Pareciera que la bondad de la aproximación depende fuertemente de la cantidad de hipótesis que se evaluen. Mientras mas grande, <strong>complejo</strong>, sea el conjunto de hipótesis $H$, más chances habrían de que dentro de este se encuentre una mejor hipótesis.</p>
-<p>Sin embargo, esto genera la siguiente situación. Al aumentar la cantidad e hipótesis a evaluar tenemos más chance de tener una buena hipótesis, o sea de disminuir el <strong>sesgo</strong> del procedimiento. Por otro lado, al realizar esto, la cota que nos da una medida de lo bueno de nuestra medida se hace más débil, o sea, tiene a <strong>aumentar la varianza</strong> de la respuesta buscada. Esto es un problema.</p>
+<h1 id="Error-y-ruido">Error y ruido<a class="anchor-link" href="#Error-y-ruido">&#182;</a></h1><h2 id="Error">Error<a class="anchor-link" href="#Error">&#182;</a></h2><p>Se denomina <strong>medida de error</strong> a la medida de cuán bien aproxima la función $g$ a la función objetivo $f$.</p>
+<p>Existen diferentes medidas de error posibles. La elección de una medida de error es clave, pues diferentes elecciones implican diferentes decisiones finales respecto a la mejor aproximación a la función $f$.</p>
+<p>Una medida de error <strong>ideal</strong> lo que hace es comparar la clasificación real de los puntos realizada por la función $f$, respecto a la realizada al seleccionar una hipótesis específica $h$; o sea, $E = E(h,f)$. Sin embargo, este es un postulado puramente teórico.</p>
+<p>Lo que en realidad se mide en la medida de error es el error de predicción sobre un conjunto particular y disponible de datos $D_t$ de los cuales disponemos la clasificación, comparando su etiqueta de clase real con la predicha por el modelo al seleccionar una hipótesis $H$, $e = e(h(D_t),f(D_t))$.</p>
+<p>La medida de error $E$ a utilizar depende del contexto del problema. Podemos ver a esta como el <em>costo</em> asociado a seleccionar una hipótesis imperfecta respecto a la función real $f$. Este costo puede depender de diferentes situaciones de contexto, que penalice algunos errores sobre otros.</p>
+<h2 id="Ruido">Ruido<a class="anchor-link" href="#Ruido">&#182;</a></h2><p>La función $f$, que asocia los valores de input con outputs determinados, <strong>no es una función determinística</strong>.</p>
+<p>En general, en vez de considerar el problema de aprender una función $f$ determinística, una función $y = f(x)$, tenemos una situación en la que un resultado $y$ es una variable aleatoria en que su distribución de probabilidad se ve influenciada por el valor que tome $x$, y lo que nos interesa el $P(y|x))$.</p>
 
 </div>
 </div>
